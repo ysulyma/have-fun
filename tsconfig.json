@@ -1,12 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "NodeNext",
-    "lib": ["es2017"],
+    "alwaysStrict": true,
+    "composite": true,
     "declaration": true,
-    "outDir": "dist",
+    "declarationDir": "./dist",
+    "esModuleInterop": true,
+    "incremental": true,
+    "lib": ["esnext"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "pretty": true,
+    "removeComments": false,
+    "rewriteRelativeImportExtensions": true,
+    "rootDir": "./src",
     "strict": true,
-    "esModuleInterop": true
+    "target": "es2021"
   },
-  "exclude": ["node_modules", "dist"]
+  "include": ["./src"]
 }

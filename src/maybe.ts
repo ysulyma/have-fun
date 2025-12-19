@@ -12,9 +12,8 @@ interface MaybeMethods<T> {
   json(): SerializedMaybe<T>;
 }
 
-type MaybeMaybeMethods<T> = T extends MaybeMethods<infer V>
-  ? {flatten: () => Maybe<V>}
-  : unknown;
+type MaybeMaybeMethods<T> =
+  T extends MaybeMethods<infer V> ? { flatten: () => Maybe<V> } : unknown;
 
 export type Maybe<T> = MaybeMaybeMethods<T> &
   MaybeMethods<T> &
@@ -30,8 +29,8 @@ export type Maybe<T> = MaybeMaybeMethods<T> &
       }
   );
 
-type TSome<T> = Extract<Maybe<T>, {isSome: true}>;
-type TNone<T> = Extract<Maybe<T>, {isNone: true}>;
+type TSome<T> = Extract<Maybe<T>, { isSome: true }>;
+type TNone<T> = Extract<Maybe<T>, { isNone: true }>;
 
 // implementation
 class internalMaybe<T> implements MaybeMethods<T> {
@@ -105,7 +104,7 @@ class internalMaybe<T> implements MaybeMethods<T> {
 
   json(): SerializedMaybe<T> {
     if (this.isSome) {
-      return {"#some": this.value as T};
+      return { "#some": this.value as T };
     }
     return null;
   }

@@ -3,7 +3,7 @@ type PromiseValue<A> = A extends Promise<infer T> ? T : A;
 type ResultMethods<T, E> = {
   map<S>(f: (value: T) => S): Result<S, E>;
   mapErr<F>(f: (error: E) => F): Result<T, F>;
-  match<T2, E2>(arms: {Ok: (value: T) => T2; Err: (error: E) => E2}): T2 | E2;
+  match<T2, E2>(arms: { Ok: (value: T) => T2; Err: (error: E) => E2 }): T2 | E2;
 
   unwrapOr<A>(altValue: A): A | T;
   unwrapOrElse<A>(altGetter: (err: E) => A): A | T;
@@ -12,9 +12,10 @@ type ResultMethods<T, E> = {
   json(): SerializedResult<T, E>;
 };
 
-type ResultResultMethods<T, F> = T extends ResultMethods<infer V, infer E>
-  ? {flatten: () => Result<V, E | F>}
-  : unknown;
+type ResultResultMethods<T, F> =
+  T extends ResultMethods<infer V, infer E>
+    ? { flatten: () => Result<V, E | F> }
+    : unknown;
 
 export type Result<T, E> = ResultMethods<T, E> &
   ResultResultMethods<T, E> &
@@ -121,9 +122,9 @@ class internalResult<T, E> {
 
   json(): SerializedResult<T, E> {
     if (this.isOk) {
-      return {"#ok": this.value as T};
+      return { "#ok": this.value as T };
     }
-    return {"#err": this.error as E};
+    return { "#err": this.error as E };
   }
 }
 
@@ -184,7 +185,7 @@ export namespace Result {
   /** Throw the error from this Result. */
   export function throwErr<T, E>(
     result: Result<T, E>,
-  ): asserts result is Extract<Result<T, E>, {isOk: true}> {
+  ): asserts result is Extract<Result<T, E>, { isOk: true }> {
     if (result.isErr) {
       throw result.unwrapErr();
     }
@@ -227,4 +228,4 @@ export namespace Result {
   }
 }
 
-export type SerializedResult<T, E> = {"#err": E} | {"#ok": T};
+export type SerializedResult<T, E> = { "#err": E } | { "#ok": T };
